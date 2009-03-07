@@ -1,23 +1,31 @@
-/* libs/WebKitLib/WebKit/WebCore/rendering/RenderThemeAndroid.cpp
-**
-** Copyright 2006, The Android Open Source Project
-**
-** Licensed under the Apache License, Version 2.0 (the "License"); 
-** you may not use this file except in compliance with the License. 
-** You may obtain a copy of the License at 
-**
-**     http://www.apache.org/licenses/LICENSE-2.0 
-**
-** Unless required by applicable law or agreed to in writing, software 
-** distributed under the License is distributed on an "AS IS" BASIS, 
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-** See the License for the specific language governing permissions and 
-** limitations under the License.
-*/
+/*
+ * Copyright 2006, The Android Open Source Project
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *  * Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  * Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL APPLE COMPUTER, INC. OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "config.h"
 #include "RenderThemeAndroid.h"
-#include "PopupMenu.h"
+
 #include "RenderSkinAndroid.h"
 #include "RenderSkinButton.h"
 #include "RenderSkinCombo.h"
@@ -40,6 +48,7 @@
 #define LISTBOX_PADDING 5
 
 namespace WebCore {
+
 static SkCanvas* getCanvasFromInfo(const RenderObject::PaintInfo& info)
 {
     return info.context->platformContext()->mCanvas;
@@ -51,7 +60,6 @@ static SkCanvas* getCanvasFromInfo(const RenderObject::PaintInfo& info)
  *      the object to be painted, the PaintInfo, from which we get the canvas, the bounding rectangle, 
  *  returns false, meaning no one else has to paint it
 */
-
 static bool paintBrush(RenderSkinAndroid* rSkin, RenderObject* o, const RenderObject::PaintInfo& i,  const IntRect& ir)
 {
     Node* element = o->element();
@@ -88,7 +96,6 @@ RenderThemeAndroid::~RenderThemeAndroid()
 
 void RenderThemeAndroid::close()
 {
-
 }
 
 bool RenderThemeAndroid::stateChanged(RenderObject* o, ControlState state) const
@@ -272,9 +279,6 @@ bool RenderThemeAndroid::paintCombo(RenderObject* o, const RenderObject::PaintIn
     if (o->style() && o->style()->backgroundColor().alpha() == 0)
         return true;
     Node* element = o->element();
-    SkCanvas* canvas = getCanvasFromInfo(i);
-    m_combo->notifyState(element);
-    canvas->save();
     int height = ir.height();
     int y = ir.y();
     // If the combo box is too large, leave it at its max height, and center it.
@@ -282,11 +286,7 @@ bool RenderThemeAndroid::paintCombo(RenderObject* o, const RenderObject::PaintIn
         y += (height - MAX_COMBO_HEIGHT) >> 1;
         height = MAX_COMBO_HEIGHT;
     }
-    canvas->translate(SkIntToScalar(ir.x()), SkIntToScalar(y));
-    m_combo->setDim(ir.width(), height);
-    m_combo->draw(i.context->platformContext());
-    canvas->restore();
-    return false;
+    return m_combo->Draw(getCanvasFromInfo(i), element, ir.x(), y, ir.width(), height);
 }
 
 bool RenderThemeAndroid::paintMenuList(RenderObject* o, const RenderObject::PaintInfo& i, const IntRect& ir) 
@@ -296,12 +296,28 @@ bool RenderThemeAndroid::paintMenuList(RenderObject* o, const RenderObject::Pain
 
 void RenderThemeAndroid::adjustMenuListButtonStyle(CSSStyleSelector* selector, RenderStyle* style, Element* e) const
 {
+    // Copied from RenderThemeSafari.
+    const float baseFontSize = 11.0f;
+    const int baseBorderRadius = 5;
+    float fontScale = style->fontSize() / baseFontSize;
+    
+    style->resetPadding();
+    style->setBorderRadius(IntSize(int(baseBorderRadius + fontScale - 1), int(baseBorderRadius + fontScale - 1))); // FIXME: Round up?
+
+    const int minHeight = 15;
+    style->setMinHeight(Length(minHeight, Fixed));
+    
+    style->setLineHeight(RenderStyle::initialLineHeight());
+    // Found these padding numbers by trial and error.
+    const int padding = 4;
+    style->setPaddingTop(Length(padding, Fixed));
+    style->setPaddingLeft(Length(padding, Fixed));
+    // Added to make room for our arrow.
     style->setPaddingRight(Length(RenderSkinCombo::extraWidth(), Fixed));
-    addIntrinsicMargins(style);
 }
 
 bool RenderThemeAndroid::paintMenuListButton(RenderObject* o, const RenderObject::PaintInfo& i, const IntRect& ir) 
-{ 
+{
     return paintCombo(o, i, ir);
 }
 

@@ -1,6 +1,7 @@
 /*
  * This file is part of the popup menu implementation for <select> elements in WebCore.
  *
+ * Copyright 2009, The Android Open Source Project
  * Copyright (C) 2006 Apple Computer, Inc.
  * Copyright (C) 2006 Michael Emmel mike.emmel@gmail.com 
  *
@@ -35,7 +36,7 @@ PopupMenu::~PopupMenu()
 {
 }
 
-void PopupMenu::show(const IntRect& rect, FrameView* view, int index)
+void PopupMenu::show(const IntRect&, FrameView*, int)
 {
 
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2009, The Android Open Source Project
  * Copyright (C) 2007 Apple Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +61,7 @@ class Clipboard : public RefCounted<Clipboard> {};
 
 PassRefPtr<Clipboard> DragData::createClipboard(ClipboardAccessPolicy) const
 {
-    return PassRefPtr<Clipboard>(NULL);
+    return PassRefPtr<Clipboard>(0);
 }
     
 bool DragData::containsCompatibleContent() const
