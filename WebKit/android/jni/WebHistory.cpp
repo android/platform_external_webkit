@@ -1,19 +1,27 @@
-/* 
-**
-** Copyright 2007, The Android Open Source Project
-**
-** Licensed under the Apache License, Version 2.0 (the "License");
-** you may not use this file except in compliance with the License.
-** You may obtain a copy of the License at
-**
-**     http://www.apache.org/licenses/LICENSE-2.0
-**
-** Unless required by applicable law or agreed to in writing, software
-** distributed under the License is distributed on an "AS IS" BASIS,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-** See the License for the specific language governing permissions and
-** limitations under the License.
-*/
+/*
+ * Copyright 2007, The Android Open Source Project
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *  * Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  * Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL APPLE COMPUTER, INC. OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #define LOG_TAG "webhistory"
 
@@ -35,6 +43,7 @@
 #include "TextEncoding.h"
 #include "WebCoreFrameBridge.h"
 #include "WebCoreJni.h"
+#include "jni_utility.h"
 
 #include <JNIHelp.h>
 #include <SkUtils.h>
@@ -223,15 +232,14 @@ jbyteArray WebHistory::Flatten(JNIEnv* env, WTF::Vector<char>& v, WebCore::Histo
 
     // Write our flattened data to the java array.
     jbyte* bytes = env->GetByteArrayElements(b, NULL);
-    memcpy(bytes, v.data(), v.size());
+    if (bytes)
+        memcpy(bytes, v.data(), v.size());
     env->ReleaseByteArrayElements(b, bytes, 0);
     return b;
 }
 
 WebHistoryItem::WebHistoryItem(JNIEnv* env, jobject obj,
         WebCore::HistoryItem* item) {
-    JavaVM* vm;
-    mJVM = env->GetJavaVM(&vm) >= 0 ? vm : NULL;
     mObject = adoptGlobalRef(env, obj);
     mScale = 100;
     mActive = false;
@@ -241,8 +249,7 @@ WebHistoryItem::WebHistoryItem(JNIEnv* env, jobject obj,
 
 WebHistoryItem::~WebHistoryItem() {
     if (mObject) {
-        JNIEnv* env;
-        env = mJVM->GetEnv((void **)&env, JNI_VERSION_1_4) >= 0 ? env : NULL;
+        JNIEnv* env = JSC::Bindings::getJNIEnv();
         if (!env)
             return;
         env->DeleteGlobalRef(mObject);
@@ -270,8 +277,7 @@ void WebHistoryItem::updateHistoryItem(WebCore::HistoryItem* item) {
             webItem = webItem->parent();
         item = webItem->historyItem();
     }
-    JNIEnv* env;
-    env = webItem->mJVM->GetEnv((void **)&env, JNI_VERSION_1_4) >= 0 ? env : NULL;
+    JNIEnv* env = JSC::Bindings::getJNIEnv();
     if (!env)
         return;
 

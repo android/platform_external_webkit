@@ -1,84 +1,71 @@
-/* libs/WebKitLib/WebKit/WebCore/platform/android/RenderSkinCombo.cpp
-**
-** Copyright 2006, The Android Open Source Project
-**
-** Licensed under the Apache License, Version 2.0 (the "License"); 
-** you may not use this file except in compliance with the License. 
-** You may obtain a copy of the License at 
-**
-**     http://www.apache.org/licenses/LICENSE-2.0 
-**
-** Unless required by applicable law or agreed to in writing, software 
-** distributed under the License is distributed on an "AS IS" BASIS, 
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-** See the License for the specific language governing permissions and 
-** limitations under the License.
-*/
+/*
+ * Copyright 2006, The Android Open Source Project
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *  * Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  * Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL APPLE COMPUTER, INC. OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "config.h"
+#include "RenderSkinCombo.h"
+
 #include "Document.h"
 #include "Node.h"
-#include "PlatformGraphicsContext.h"
-#include "RenderSkinCombo.h"
 #include "SkCanvas.h"
 #include "SkNinePatch.h"
 
 namespace WebCore {
 
-static const int margin = 2;
-static const SkIRect mar = { margin, margin, RenderSkinCombo::extraWidth(), margin };
-
-SkBitmap RenderSkinCombo::m_bitmap[2];
-bool     RenderSkinCombo::m_decoded;
+static SkBitmap         s_bitmap[2];    // Collection of assets for a combo box
+static bool             s_decoded;      // True if all assets were decoded
+static const int        s_margin = 2;
+static const SkIRect    s_mar = { s_margin, s_margin,
+                                RenderSkinCombo::extraWidth(), s_margin };
     
 RenderSkinCombo::RenderSkinCombo()
 {
-    m_height = 20;
-    m_width = 75;
-    m_state = kNormal;
-    m_bounds.set(0, 0, SkIntToScalar(m_width), SkIntToScalar(m_height));
 }
 
 void RenderSkinCombo::Init(android::AssetManager* am)
 {
-    if (m_decoded)
+    if (s_decoded)
         return;
     // Maybe short circuiting is fine, since I don't even draw if one state is not decoded properly
     // but is that necessary in the final version?
-    m_decoded = RenderSkinAndroid::DecodeBitmap(am, "images/combobox-noHighlight.png", &m_bitmap[kNormal]);
-    m_decoded = RenderSkinAndroid::DecodeBitmap(am, "images/combobox-disabled.png", &m_bitmap[kDisabled]) && m_decoded;
+    s_decoded = RenderSkinAndroid::DecodeBitmap(am, "images/combobox-noHighlight.png", &s_bitmap[kNormal]);
+    s_decoded = RenderSkinAndroid::DecodeBitmap(am, "images/combobox-disabled.png", &s_bitmap[kDisabled]) && s_decoded;
 }
 
 
-bool RenderSkinCombo::draw(PlatformGraphicsContext *p)
+bool RenderSkinCombo::Draw(SkCanvas* canvas, Node* element, int x, int y, int width, int height)
 {
-    // The text is drawn right next to the left side - should I draw the box slightly to the left?
-    if (!m_decoded)
-        return false;
-    SkCanvas* canvas = p->mCanvas;
-    SkNinePatch::DrawNine(canvas, m_bounds, m_bitmap[m_state], mar);
-    return false;
-}
-
-void RenderSkinCombo::notifyState(Node* element)
-{
-    m_state = kDisabled;
-    if (!element)
-        return;
-    if (element->isEnabled())
-        m_state = kNormal;
-}
-
-void RenderSkinCombo::setDim(int width, int height)
-{
-    if (width != m_width || height != m_height) {
-        m_width = width;
-        if (height < (margin<<1) + 1)
-            height = (margin<<1) + 1;
-        else
-           m_height = height;
-        m_bounds.set(0, 0, SkIntToScalar(m_width), SkIntToScalar(m_height));
+    if (!s_decoded)
+        return true;
+    State state = element && element->isEnabled() ? kNormal : kDisabled;
+    if (height < (s_margin<<1) + 1) {
+        height = (s_margin<<1) + 1;
     }
+    SkRect bounds;
+    bounds.set(SkIntToScalar(x), SkIntToScalar(y), SkIntToScalar(x + width), SkIntToScalar(y + height));
+    SkNinePatch::DrawNine(canvas, bounds, s_bitmap[state], s_mar);
+    return false;
 }
 
 }   //WebCore

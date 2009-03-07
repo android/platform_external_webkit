@@ -1,4 +1,5 @@
 /*
+ * Copyright 2009, The Android Open Source Project
  * Copyright (C) 2004, 2006 Apple Computer, Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,12 +31,12 @@
 
 namespace WebCore {
 
-Cursor::Cursor(Image* image, const IntPoint& )
+Cursor::Cursor(Image*, const IntPoint&)
 {
     notImplemented();
 }
 
-Cursor::Cursor(const Cursor& other)
+Cursor::Cursor(const Cursor&)
 {
     notImplemented();
 }
@@ -45,7 +46,7 @@ Cursor::~Cursor()
     notImplemented();
 }
 
-Cursor& Cursor::operator=(const Cursor& other)
+Cursor& Cursor::operator=(const Cursor&)
 {
     notImplemented();
     return *this;
@@ -254,7 +255,7 @@ const Cursor& noneCursor()
     return c;
 }
 
-    // new as of SVN change 36269, Sept 8, 2008
+// new as of SVN change 36269, Sept 8, 2008
 const Cursor& middlePanningCursor()
 {
     notImplemented();
@@ -318,8 +319,17 @@ const Cursor& westPanningCursor()
     return c;
 }
 
-    // new as of SVN change 38068, Nov 5, 2008
-const Cursor& grabCursor() {}
-const Cursor& grabbingCursor() {}
+// new as of SVN change 38068, Nov 5, 2008
+const Cursor& grabCursor() {
+    notImplemented();
+    static Cursor c;
+    return c;
+}
+
+const Cursor& grabbingCursor() {
+    notImplemented();
+    static Cursor c;
+    return c;
+}
 
 }

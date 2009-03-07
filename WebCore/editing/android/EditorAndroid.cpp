@@ -1,4 +1,5 @@
 /*
+ * Copyright 2009, The Android Open Source Project
  * Copyright (C) 2006, 2007 Apple Inc.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,15 +26,8 @@
 
 #include "config.h"
 #include "Editor.h"
-#include "EditorClient.h"
 
 #include "ClipboardAndroid.h"
-#include "Document.h"
-#include "Element.h"
-#include "htmlediting.h"
-#include "NotImplemented.h"
-#include "TextIterator.h"
-#include "visible_units.h"
 
 namespace WebCore {
 

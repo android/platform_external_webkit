@@ -1,4 +1,5 @@
 /*
+ * Copyright 2009, The Android Open Source Project
  * Copyright (C) 2007 Holger Hans Peter Freyther
  * All rights reserved.
  *
@@ -25,9 +26,8 @@
  */
 
 #include "config.h"
-
 #include "FileSystem.h"
-#include "PlatformString.h"
+
 #include "CString.h"
 #include <dlfcn.h>
 #include <errno.h>
@@ -92,7 +92,7 @@ int writeToFile(PlatformFileHandle handle, const char* data, int length)
     return totalBytesWritten;
 }
 
-    // new as of SVN change 36269, Sept 8, 2008
+// new as of SVN change 36269, Sept 8, 2008
 String homeDirectoryPath() 
 {
     return sPluginPath;
