@@ -56,8 +56,13 @@ namespace android {
         PictureSet(const PictureSet& src) { set(src); }
         virtual ~PictureSet();
         void add(const SkRegion& area, SkPicture* picture,
-            uint32_t elapsed, bool split);
-        const SkIRect& bounds(size_t i) {
+            uint32_t elapsed, bool split) 
+        {
+            add(area, picture, elapsed, split, emptyPicture(picture));
+        }
+        void add(const SkRegion& area, SkPicture* picture,
+            uint32_t elapsed, bool split, bool empty);
+        const SkIRect& bounds(size_t i) const {
             return mPictures[i].mArea.getBounds(); }
         bool build();
         // Update mWidth/mHeight, and adds any additional inval region
@@ -71,10 +76,9 @@ namespace android {
         void set(const PictureSet& );
         void setDrawTimes(const PictureSet& );
         void setPicture(size_t i, SkPicture* p);
-        size_t size() { return mPictures.size(); }
+        size_t size() const { return mPictures.size(); }
         void split(PictureSet* result) const;
-        void toPicture(SkPicture* ) const;
-        bool upToDate(size_t i) { return mPictures[i].mPicture != NULL; }
+        bool upToDate(size_t i) const { return mPictures[i].mPicture != NULL; }
         int width() const { return mWidth; }
         void dump(const char* label) const;
         bool validate(const char* label) const;
@@ -88,6 +92,7 @@ namespace android {
             bool mSplit : 8;
             bool mWroteElapsed : 8;
             bool mBase : 8; // true if nothing is drawn underneath this
+            bool mEmpty : 8; // true if the picture only draws white
         };
         void add(const Pictures* temp);
         WTF::Vector<Pictures> mPictures;

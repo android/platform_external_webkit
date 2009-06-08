@@ -44,7 +44,7 @@
 // Unfortunately only one gets picked up if we compile all the files in one
 // library. Since they can operate together, include it here so it is always
 // pulled in.
-#include <kjs/config.h>
+#include <JavaScriptCore/config.h>
 
 #ifdef __cplusplus
 #define PREFIX_FOR_WEBCORE 1
@@ -81,9 +81,6 @@ typedef unsigned char   flex_uint8_t;
 #define ANDROID_SELECT_TEXT_AREAS
 
 #define ANDROID_FIX
-// note: if uncomment ANDROID_INSTRUMENT here, you must also 
-// uncomment it on line 31 of JavaScriptCore/kjs/config.h
-// #define ANDROID_INSTRUMENT
 
 // Fix for issue 878095.  Only call onBlur on an element if it has an
 // onBlur event.
@@ -159,3 +156,12 @@ typedef unsigned char   flex_uint8_t;
 
 // Enable dumping the display tree to a file (triggered in WebView.java)
 #define ANDROID_DUMP_DISPLAY_TREE
+
+// Allow webkit to initiate scroll when going to an anchor on a page
+// The implementation is not acceptable to webkit. Either scrollRectToVisible
+// needs additional flavor or parameter to know that it can't be ignored,
+// and/or script engine must keep whether event was user initiated.
+#define ANDROID_SCROLL_ON_GOTO_ANCHOR
+
+// Animated GIF support.
+#define ANDROID_ANIMATED_GIF

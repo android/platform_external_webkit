@@ -72,7 +72,7 @@ JNIType JNITypeFromClassName(const char *name);
 JNIType JNITypeFromPrimitiveType(char type);
 const char *signatureFromPrimitiveType(JNIType type);
 
-jvalue convertValueToJValue(ExecState*, JSValue*, JNIType, const char* javaClassName);
+jvalue convertValueToJValue(ExecState*, JSValuePtr, JNIType, const char* javaClassName);
 
 jvalue getJNIField(jobject obj, JNIType type, const char *name, const char *signature);
 
@@ -216,6 +216,9 @@ static T callJNIMethodV(jobject obj, const char *name, const char *sig, va_list 
             jmethodID mid = env->GetMethodID(cls, name, sig);
             if ( mid != NULL )
             {
+#ifdef ANDROID_FIX // Avoids references to cls without popping the local frame.
+                env->DeleteLocalRef(cls);
+#endif
                 return JNICaller<T>::callV(obj, mid, args);
             }
             else
@@ -277,7 +280,7 @@ T callJNIStaticMethod(jclass cls, const char* methodName, const char* methodSign
     return result;
 }
     
-bool dispatchJNICall(ExecState*, const void* targetAppletView, jobject obj, bool isStatic, JNIType returnType, jmethodID methodID, jvalue* args, jvalue& result, const char* callingURL, JSValue*& exceptionDescription);
+bool dispatchJNICall(ExecState*, const void* targetAppletView, jobject obj, bool isStatic, JNIType returnType, jmethodID methodID, jvalue* args, jvalue& result, const char* callingURL, JSValuePtr& exceptionDescription);
 
 } // namespace Bindings
 

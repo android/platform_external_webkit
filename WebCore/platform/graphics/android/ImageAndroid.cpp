@@ -25,7 +25,7 @@
  */
 
 #include "config.h"
-#include "AffineTransform.h"
+#include "TransformationMatrix.h"
 #include "BitmapImage.h"
 #include "Image.h"
 #include "FloatRect.h"
@@ -59,14 +59,17 @@ android::AssetManager* globalAssetManager() {
 
 namespace WebCore {
     
-void FrameData::clear()
+bool FrameData::clear(bool clearMetadata)
 {
+    if (clearMetadata)
+        m_haveMetadata = false;
+
     if (m_frame) {
         m_frame->unref();
         m_frame = 0;
-        m_duration = 0.;
-        m_hasAlpha = true;
+        return true;
     }
+    return false;
 }
 
 BitmapImage::BitmapImage(SkBitmapRef* ref, ImageObserver* observer)
@@ -152,11 +155,13 @@ void BitmapImage::checkForSolidColor()
 void BitmapImage::draw(GraphicsContext* ctxt, const FloatRect& dstRect,
                        const FloatRect& srcRect, CompositeOperator compositeOp)
 {
+    startAnimation();
+
     SkBitmapRef* image = this->nativeImageForCurrentFrame();
     if (!image) { // If it's too early we won't have an image yet.
         return;
     }
-    
+
     // in case we get called with an incomplete bitmap
     const SkBitmap& bitmap = image->bitmap();
     if (bitmap.getPixels() == NULL && bitmap.pixelRef() == NULL) {
@@ -167,12 +172,12 @@ void BitmapImage::draw(GraphicsContext* ctxt, const FloatRect& dstRect,
 #endif
         return;
     }
-    
+
     SkIRect srcR;
     SkRect  dstR;    
     float invScaleX = (float)bitmap.width() / image->origWidth();
     float invScaleY = (float)bitmap.height() / image->origHeight();
-    
+
     android_setrect(&dstR, dstRect);
     android_setrect_scaled(&srcR, srcRect, invScaleX, invScaleY);
     if (srcR.isEmpty() || dstR.isEmpty()) {
@@ -183,16 +188,14 @@ void BitmapImage::draw(GraphicsContext* ctxt, const FloatRect& dstRect,
 #endif
         return;
     }
-    
+
     SkCanvas*   canvas = ctxt->platformContext()->mCanvas;
     SkPaint     paint;
-    
+
     paint.setFilterBitmap(true);
     paint.setPorterDuffXfermode(android_convert_compositeOp(compositeOp));
     canvas->drawBitmapRect(bitmap, &srcR, dstR, &paint);
-    
-    startAnimation();
-    
+
 #ifdef TRACE_SUBSAMPLED_BITMAPS
     if (bitmap.width() != image->origWidth() ||
         bitmap.height() != image->origHeight()) {
@@ -211,7 +214,7 @@ void BitmapImage::setURL(const String& str)
 ///////////////////////////////////////////////////////////////////////////////
 
 void Image::drawPattern(GraphicsContext* ctxt, const FloatRect& tileRect,
-                        const AffineTransform& patternTransform,
+                        const TransformationMatrix& patternTransform,
                         const FloatPoint& phase, CompositeOperator compositeOp,
                         const FloatRect& destRect)
 {
