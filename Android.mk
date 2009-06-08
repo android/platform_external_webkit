@@ -70,16 +70,27 @@ ifeq ($(TARGET_ARCH),arm)
 LOCAL_CFLAGS += -Darm -fvisibility=hidden
 endif
 
+ifeq ($(WEBCORE_INSTRUMENTATION),true)
+LOCAL_CFLAGS += -DANDROID_INSTRUMENT
+endif
+
 # LOCAL_LDLIBS is used in simulator builds only and simulator builds are only
 # valid on Linux
 LOCAL_LDLIBS += -lpthread -ldl
 
-# Build our list of include paths
+# Build our list of include paths. We include WebKit/android/icu first so that
+# any files that include <unicode/ucnv.h> will include our ucnv.h first. We
+# also add external/ as an include directory so that we can specify the real
+# icu header directory as a more exact reference to avoid including our ucnv.h.
 LOCAL_C_INCLUDES := \
-	$(call include-path-for, corecg graphics) \
 	$(JNI_H_INCLUDE) \
+	$(LOCAL_PATH)/WebKit/android/icu \
+	external/ \
 	external/icu4c/common \
+	external/icu4c/i18n \
 	external/libxml2/include \
+	external/skia/emoji \
+	external/skia/include/core \
 	external/skia/include/effects \
 	external/skia/include/images \
 	external/skia/include/ports \
@@ -106,9 +117,12 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/WebCore/page/animation \
 	$(LOCAL_PATH)/WebCore/platform \
 	$(LOCAL_PATH)/WebCore/platform/android \
+	$(LOCAL_PATH)/WebCore/platform/animation \
 	$(LOCAL_PATH)/WebCore/platform/graphics \
 	$(LOCAL_PATH)/WebCore/platform/graphics/android \
 	$(LOCAL_PATH)/WebCore/platform/graphics/network \
+	$(LOCAL_PATH)/WebCore/platform/graphics/skia \
+	$(LOCAL_PATH)/WebCore/platform/graphics/transforms \
 	$(LOCAL_PATH)/WebCore/platform/image-decoders \
 	$(LOCAL_PATH)/WebCore/platform/network \
 	$(LOCAL_PATH)/WebCore/platform/network/android \
@@ -120,25 +134,30 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/WebCore/storage \
 	$(LOCAL_PATH)/WebCore/xml \
 	$(LOCAL_PATH)/WebKit/android \
+	$(LOCAL_PATH)/WebKit/android/WebCoreSupport \
 	$(LOCAL_PATH)/WebKit/android/jni \
 	$(LOCAL_PATH)/WebKit/android/nav \
 	$(LOCAL_PATH)/WebKit/android/plugins \
 	$(LOCAL_PATH)/WebKit/android/stl \
 	$(LOCAL_PATH)/JavaScriptCore \
 	$(LOCAL_PATH)/JavaScriptCore/API \
-	$(LOCAL_PATH)/JavaScriptCore/VM \
+	$(LOCAL_PATH)/JavaScriptCore/assembler \
+	$(LOCAL_PATH)/JavaScriptCore/bytecode \
+	$(LOCAL_PATH)/JavaScriptCore/bytecompiler \
 	$(LOCAL_PATH)/JavaScriptCore/debugger \
-	$(LOCAL_PATH)/JavaScriptCore/kjs \
-	$(LOCAL_PATH)/JavaScriptCore/icu \
+	$(LOCAL_PATH)/JavaScriptCore/parser \
+	$(LOCAL_PATH)/JavaScriptCore/jit \
+	$(LOCAL_PATH)/JavaScriptCore/interpreter \
 	$(LOCAL_PATH)/JavaScriptCore/pcre \
 	$(LOCAL_PATH)/JavaScriptCore/profiler \
 	$(LOCAL_PATH)/JavaScriptCore/runtime \
+	$(LOCAL_PATH)/JavaScriptCore/wrec \
 	$(LOCAL_PATH)/JavaScriptCore/wtf \
 	$(LOCAL_PATH)/JavaScriptCore/wtf/unicode \
 	$(LOCAL_PATH)/JavaScriptCore/wtf/unicode/icu \
 	$(LOCAL_PATH)/JavaScriptCore/ForwardingHeaders \
 	$(base_intermediates)/JavaScriptCore \
-	$(base_intermediates)/JavaScriptCore/kjs \
+	$(base_intermediates)/JavaScriptCore/parser \
 	$(base_intermediates)/JavaScriptCore/runtime \
 	$(base_intermediates)/WebCore/ \
 	$(base_intermediates)/WebCore/bindings/js \
