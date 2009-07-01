@@ -244,6 +244,12 @@
 #define WTF_PLATFORM_BIG_ENDIAN 1
 #endif
 
+/* PLATFORM(SH) */
+#if    defined(__sh__) \
+    || defined(__SH4__)
+#define WTF_PLATFORM_SH 1
+#endif
+
 /* PLATFORM(WIN_CE) && PLATFORM(QT)
    We can not determine the endianess at compile time. For
    Qt for Windows CE the endianess is specified in the
