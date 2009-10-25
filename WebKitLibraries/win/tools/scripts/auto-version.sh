@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 # Copyright (C) 2007 Apple Inc.  All rights reserved.
 #
