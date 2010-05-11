@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyn///rE\u003d",
+        "filename": "WebKit/android/jni/WebCoreFrameBridge.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1263,
+      "author": {
+        "id": 1000773
+      },
+      "writtenOn": "2010-05-11T23:40:44Z",
+      "side": 1,
+      "message": "The latest code is already checking namespaceURI(). Please wait.",
+      "revId": "826b5b03b16f14ad788173a070cb2e6226bbfed0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
