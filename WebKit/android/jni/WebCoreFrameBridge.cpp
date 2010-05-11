@@ -1017,7 +1017,7 @@ static jstring DocumentAsText(JNIEnv *env, jobject obj)
     LOG_ASSERT(pFrame, "android_webcore_nativeDocumentAsText must take a valid frame pointer!");
 
     WebCore::Element *documentElement = pFrame->document()->documentElement();
-    if (!documentElement)
+    if (!documentElement || !documentElement->isHTMLElement())
         return NULL;
     WebCore::String renderDump = ((WebCore::HTMLElement*)documentElement)->innerText();
     renderDump.append("\n");
@@ -1260,15 +1260,17 @@ static jboolean HasPasswordField(JNIEnv *env, jobject obj)
     WTF::PassRefPtr<WebCore::HTMLCollection> form = pFrame->document()->forms();
     WebCore::Node* node = form->firstItem();
     while (node && !found) {
-        WTF::Vector<WebCore::HTMLFormControlElement*> elements =
-        		((WebCore::HTMLFormElement*)node)->formElements;
-        size_t size = elements.size();
-        for (size_t i = 0; i< size && !found; i++) {
-            WebCore::HTMLFormControlElement* e = elements[i];
-            if (e->hasLocalName(WebCore::HTMLNames::inputTag)) {
-                if (((WebCore::HTMLInputElement*)e)->inputType() ==
-                		WebCore::HTMLInputElement::PASSWORD)
-                    found = true;
+        if (node->isHTMLElement()) {
+            WebCore::HTMLFormElement *form1 = static_cast<WebCore::HTMLFormElement*>(node);
+            WTF::Vector<WebCore::HTMLFormControlElement*> elements = form1->formElements;
+            size_t size = elements.size();
+            for (size_t i = 0; i< size && !found; i++) {
+                WebCore::HTMLFormControlElement* e = elements[i];
+                if (e->hasLocalName(WebCore::HTMLNames::inputTag)) {
+                    if (((WebCore::HTMLInputElement*)e)->inputType() ==
+                            WebCore::HTMLInputElement::PASSWORD)
+                        found = true;
+                }
             }
         }
         node = form->nextItem();
@@ -1290,21 +1292,23 @@ static jobjectArray GetUsernamePassword(JNIEnv *env, jobject obj)
     WTF::PassRefPtr<WebCore::HTMLCollection> form = pFrame->document()->forms();
     WebCore::Node* node = form->firstItem();
     while (node && !found) {
-        WTF::Vector<WebCore::HTMLFormControlElement*> elements =
-        		((WebCore::HTMLFormElement*)node)->formElements;
-        size_t size = elements.size();
-        for (size_t i = 0; i< size && !found; i++) {
-            WebCore::HTMLFormControlElement* e = elements[i];
-            if (e->hasLocalName(WebCore::HTMLNames::inputTag)) {
-                WebCore::HTMLInputElement* input = (WebCore::HTMLInputElement*)e;
-                if (input->autoComplete() == false)
-                    continue;
-                if (input->inputType() == WebCore::HTMLInputElement::PASSWORD)
-                    password = input->value();
-                else if (input->inputType() == WebCore::HTMLInputElement::TEXT)
-                    username = input->value();
-                if (!username.isNull() && !password.isNull())
-                    found = true;
+        if (node->isHTMLElement()) {
+            WebCore::HTMLFormElement *form1 = static_cast<WebCore::HTMLFormElement*>(node);
+            WTF::Vector<WebCore::HTMLFormControlElement*> elements = form1->formElements;
+            size_t size = elements.size();
+            for (size_t i = 0; i< size && !found; i++) {
+                WebCore::HTMLFormControlElement* e = elements[i];
+                if (e->hasLocalName(WebCore::HTMLNames::inputTag)) {
+                    WebCore::HTMLInputElement* input = (WebCore::HTMLInputElement*)e;
+                    if (input->autoComplete() == false)
+                        continue;
+                    if (input->inputType() == WebCore::HTMLInputElement::PASSWORD)
+                        password = input->value();
+                    else if (input->inputType() == WebCore::HTMLInputElement::TEXT)
+                        username = input->value();
+                    if (!username.isNull() && !password.isNull())
+                        found = true;
+                }
             }
         }
         node = form->nextItem();
@@ -1335,21 +1339,23 @@ static void SetUsernamePassword(JNIEnv *env, jobject obj,
     WTF::PassRefPtr<WebCore::HTMLCollection> form = pFrame->document()->forms();
     WebCore::Node* node = form->firstItem();
     while (node && !found) {
-        WTF::Vector<WebCore::HTMLFormControlElement*> elements =
-        		((WebCore::HTMLFormElement*)node)->formElements;
-        size_t size = elements.size();
-        for (size_t i = 0; i< size && !found; i++) {
-            WebCore::HTMLFormControlElement* e = elements[i];
-            if (e->hasLocalName(WebCore::HTMLNames::inputTag)) {
-                WebCore::HTMLInputElement* input = (WebCore::HTMLInputElement*)e;
-                if (input->autoComplete() == false)
-                    continue;
-                if (input->inputType() == WebCore::HTMLInputElement::PASSWORD)
-                    passwordEle = input;
-                else if (input->inputType() == WebCore::HTMLInputElement::TEXT)
-                    usernameEle = input;
-                if (usernameEle != NULL && passwordEle != NULL)
-                    found = true;
+        if (node->isHTMLElement()) {
+            WebCore::HTMLFormElement *form1 = static_cast<WebCore::HTMLFormElement*>(node);
+            WTF::Vector<WebCore::HTMLFormControlElement*> elements = form1->formElements;
+            size_t size = elements.size();
+            for (size_t i = 0; i< size && !found; i++) {
+                WebCore::HTMLFormControlElement* e = elements[i];
+                if (e->hasLocalName(WebCore::HTMLNames::inputTag)) {
+                    WebCore::HTMLInputElement* input = (WebCore::HTMLInputElement*)e;
+                    if (input->autoComplete() == false)
+                        continue;
+                    if (input->inputType() == WebCore::HTMLInputElement::PASSWORD)
+                        passwordEle = input;
+                    else if (input->inputType() == WebCore::HTMLInputElement::TEXT)
+                        usernameEle = input;
+                    if (usernameEle != NULL && passwordEle != NULL)
+                        found = true;
+                }
             }
         }
         node = form->nextItem();
@@ -1387,29 +1393,31 @@ static jobject GetFormTextData(JNIEnv *env, jobject obj)
         WebCore::HTMLFormElement* form;
         WebCore::HTMLInputElement* input;
         for (WebCore::Node* node = collection->firstItem(); node; node = collection->nextItem()) {
-            form = static_cast<WebCore::HTMLFormElement*>(node);
-            if (form->autoComplete()) {
-                WTF::Vector<WebCore::HTMLFormControlElement*> elements = form->formElements;
-                size_t size = elements.size();
-                for (size_t i = 0; i < size; i++) {
-                    WebCore::HTMLFormControlElement* e = elements[i];
-                    if (e->type() == text) {
-                        if (e->hasAttribute(WebCore::HTMLNames::autocompleteAttr)) {
-                            const WebCore::AtomicString& attr = e->getAttribute(WebCore::HTMLNames::autocompleteAttr);
-                            if (attr == off)
-                                continue;
-                        }
-                        input = (WebCore::HTMLInputElement*) e;
-                        WebCore::String value = input->value();
-                        int len = value.length();
-                        if (len) {
-                            const WebCore::AtomicString& name = input->name();
-                            jstring key = env->NewString((jchar *)name.characters(), name.length());
-                            jstring val = env->NewString((jchar *)value.characters(), len);
-                            LOG_ASSERT(key && val, "name or value not set");
-                            env->CallObjectMethod(hashMap, put, key, val);
-                            env->DeleteLocalRef(key);
-                            env->DeleteLocalRef(val);
+            if (node->isHTMLElement()) {
+                form = static_cast<WebCore::HTMLFormElement*>(node);
+                if (form->autoComplete()) {
+                    WTF::Vector<WebCore::HTMLFormControlElement*> elements = form->formElements;
+                    size_t size = elements.size();
+                    for (size_t i = 0; i < size; i++) {
+                        WebCore::HTMLFormControlElement* e = elements[i];
+                        if (e->type() == text) {
+                            if (e->hasAttribute(WebCore::HTMLNames::autocompleteAttr)) {
+                                const WebCore::AtomicString& attr = e->getAttribute(WebCore::HTMLNames::autocompleteAttr);
+                                if (attr == off)
+                                    continue;
+                            }
+                            input = (WebCore::HTMLInputElement*) e;
+                            WebCore::String value = input->value();
+                            int len = value.length();
+                            if (len) {
+                                const WebCore::AtomicString& name = input->name();
+                                jstring key = env->NewString((jchar *)name.characters(), name.length());
+                                jstring val = env->NewString((jchar *)value.characters(), len);
+                                LOG_ASSERT(key && val, "name or value not set");
+                                env->CallObjectMethod(hashMap, put, key, val);
+                                env->DeleteLocalRef(key);
+                                env->DeleteLocalRef(val);
+                            }
                         }
                     }
                 }
