@@ -6,6 +6,7 @@
  * Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009 Apple Inc. All rights reserved.
  * Copyright (C) 2008, 2009 Torch Mobile Inc. All rights reserved. (http://www.torchmobile.com/)
  * Copyright (C) 2008, 2009 Google Inc. All rights reserved.
+ * Copyright (C) 2010 Sony Ericsson Mobile Communications AB.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -2104,6 +2105,12 @@ void Document::processMetadataSettings(const String& content)
 {
     ASSERT(!content.isNull());
     
+    Frame *frame = this->frame();
+
+    if (!frame) {
+      return;
+    }
+
     int keyBegin, keyEnd, valueBegin, valueEnd;
     int i = 0;
     int length = content.length();
@@ -2146,7 +2153,7 @@ void Document::processMetadataSettings(const String& content)
         
         String key(buffer.substring(keyBegin, keyEnd - keyBegin));
         String value(buffer.substring(valueBegin, valueEnd - valueBegin));
-        frame()->settings()->setMetadataSettings(key, value);
+        frame->settings()->setMetadataSettings(key, value);
     }
 }
 #endif
