@@ -32,13 +32,11 @@
 #include "JavaClassV8.h"
 
 #include <assert.h>
-#include <utils/Log.h>
-
-#define LOG_TAG "v8binding"
 
 // ANDROID
+#define LOG_TAG "v8binding"
+#include <utils/Log.h>
 #include <cutils/log.h>
-#define LOG_TAG JavaInstanceV8.cpp
 // END ANDROID
 
 using namespace JSC::Bindings;
