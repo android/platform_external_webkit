@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA6X///pE\u003d",
+        "filename": "WebCore/platform/KURL.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 1001047
+      },
+      "writtenOn": "2010-08-26T11:48:51Z",
+      "side": 1,
+      "message": "can you guard this change with PLATFORM(ANDROID)?",
+      "revId": "5ad2a6f8a7f6e4a3b0285b816fb0b7ae827a59b2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///pI\u003d",
+        "filename": "WebCore/platform/KURL.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1001047
+      },
+      "writtenOn": "2010-08-26T11:48:51Z",
+      "side": 1,
+      "message": "Should we be checking if p[-1] is valid and doesn\u0027t point to trash?",
+      "revId": "5ad2a6f8a7f6e4a3b0285b816fb0b7ae827a59b2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6H///yk\u003d",
         "filename": "WebCore/platform/KURL.cpp",
         "patchSetId": 1
