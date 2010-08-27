@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA6X///ek\u003d",
+        "filename": "WebCore/platform/KURL.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 1003612
+      },
+      "writtenOn": "2010-08-27T14:35:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA6X///pE\u003d",
+      "revId": "5ad2a6f8a7f6e4a3b0285b816fb0b7ae827a59b2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6X///pI\u003d",
         "filename": "WebCore/platform/KURL.cpp",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA6X///eI\u003d",
+        "filename": "WebCore/platform/KURL.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1003612
+      },
+      "writtenOn": "2010-08-27T14:35:53Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to - the other places in this code that do similar things don\u0027t (line 493, for example).  As far as I know this will always point to the last character in the string, as defined as the last character before \u0027\\0\u0027, so we shouldn\u0027t get any false matches in the junk at the end, and I can\u0027t think of any other errors that could come from just comparing it.",
+      "parentUuid": "AAAA6X///pI\u003d",
+      "revId": "5ad2a6f8a7f6e4a3b0285b816fb0b7ae827a59b2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6H///yk\u003d",
         "filename": "WebCore/platform/KURL.cpp",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-08-24T00:47:00Z",
       "side": 1,
       "message": "Shouldn\u0027t that be \"p--\" without a dereference?",
+      "revId": "5ad2a6f8a7f6e4a3b0285b816fb0b7ae827a59b2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///eM\u003d",
+        "filename": "WebCore/platform/KURL.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 1003612
+      },
+      "writtenOn": "2010-08-27T14:35:53Z",
+      "side": 1,
+      "message": "Indeed it should.  I\u0027m a little surprised that even worked before.",
+      "parentUuid": "AAAA6H///yk\u003d",
       "revId": "5ad2a6f8a7f6e4a3b0285b816fb0b7ae827a59b2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
