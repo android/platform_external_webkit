@@ -134,8 +134,12 @@ void CachedFrame::clearCursor()
     DBG_NAV_LOGD("mCursorIndex=%d", mCursorIndex);
     if (mCursorIndex < CURSOR_SET)
         return;
-    CachedNode& cursor = mCachedNodes[mCursorIndex];
-    cursor.clearCursor(this);
+
+    if (mCursorIndex < size()) {
+        CachedNode& cursor = mCachedNodes[mCursorIndex];
+        cursor.clearCursor(this);
+    }
+
     mCursorIndex = CURSOR_CLEARED; // initialized and explicitly cleared
 }
 
@@ -325,11 +329,19 @@ const CachedNode* CachedFrame::currentFocus(const CachedFrame** framePtr) const
         *framePtr = this;
     if (mFocusIndex < 0)
         return NULL;
-    const CachedNode* result = &mCachedNodes[mFocusIndex];
-    const CachedFrame* frame = hasFrame(result);
-    if (frame != NULL)
-        return frame->currentFocus(framePtr);
-    return result;
+
+    if (mFocusIndex < size()) {
+        const CachedNode* result = &mCachedNodes[mFocusIndex];
+        if(result != NULL) {
+            const CachedFrame* frame = hasFrame(result);
+            if (frame != NULL) {
+                return frame->currentFocus(framePtr);
+            }
+            return result;
+        }
+    }
+
+    return NULL;
 }
 
 bool CachedFrame::directionChange() const

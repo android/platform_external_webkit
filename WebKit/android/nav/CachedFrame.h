@@ -135,7 +135,7 @@ public:
     bool setFocus(WebCore::Frame* , WebCore::Node* , int x, int y);
     void setFocusIndex(int index) { mFocusIndex = index; }
     void setLocalViewBounds(const WebCore::IntRect& bounds) { mLocalViewBounds = bounds; }
-    int size() { return mCachedNodes.size(); }
+    int size() const { return mCachedNodes.size(); }
     const CachedInput* textInput(const CachedNode* node) const {
         return node->isTextInput() ? &mCachedTextInputs[node->textInputIndex()]
             : 0;
