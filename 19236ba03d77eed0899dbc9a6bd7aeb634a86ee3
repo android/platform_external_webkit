@@ -33,6 +33,24 @@
       "revId": "19236ba03d77eed0899dbc9a6bd7aeb634a86ee3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//9rc\u003d",
+        "filename": "WebKit/android/jni/WebViewCore.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1000773
+      },
+      "writtenOn": "2010-11-01T20:16:12Z",
+      "side": 1,
+      "message": "As this point, the node should be valid. The comment in the original CL says the node may be deleted by forceLayout() below.",
+      "parentUuid": "AAAA8H//9rs\u003d",
+      "revId": "19236ba03d77eed0899dbc9a6bd7aeb634a86ee3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
