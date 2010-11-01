@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//9s8\u003d",
+        "filename": "WebKit/android/jni/WebViewCore.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 1002416
+      },
+      "writtenOn": "2010-11-01T18:18:56Z",
+      "side": 1,
+      "message": "This should say\n\nFrame* frame \u003d 0;\n\nto match webkit style guidelines.",
+      "revId": "19236ba03d77eed0899dbc9a6bd7aeb634a86ee3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
