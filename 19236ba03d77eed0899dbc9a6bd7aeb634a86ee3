@@ -16,6 +16,23 @@
       "revId": "19236ba03d77eed0899dbc9a6bd7aeb634a86ee3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//9rs\u003d",
+        "filename": "WebKit/android/jni/WebViewCore.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1004916
+      },
+      "writtenOn": "2010-11-01T20:06:50Z",
+      "side": 1,
+      "message": "I don\u0027t see how this can work. If the node has been deleted, then node-\u003edocument()-\u003eframe() may crash.",
+      "revId": "19236ba03d77eed0899dbc9a6bd7aeb634a86ee3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
