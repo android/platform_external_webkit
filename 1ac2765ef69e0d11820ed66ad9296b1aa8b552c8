@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA9n//+CQ\u003d",
+        "filename": "WebKit/android/jni/WebViewCore.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-12-01T16:17:40Z",
+      "side": 1,
+      "message": "I\u0027ll let reviewers confirm that a 2-line unbraced if statement is OK in this context.",
+      "revId": "1ac2765ef69e0d11820ed66ad9296b1aa8b552c8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
