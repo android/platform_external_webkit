@@ -16,6 +16,24 @@
       "revId": "1ac2765ef69e0d11820ed66ad9296b1aa8b552c8",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9n//+B0\u003d",
+        "filename": "WebKit/android/jni/WebViewCore.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1004916
+      },
+      "writtenOn": "2010-12-01T17:27:24Z",
+      "side": 1,
+      "message": "Webkit style is that there are no braces here, so it\u0027s correct.",
+      "parentUuid": "AAAA9n//+CQ\u003d",
+      "revId": "1ac2765ef69e0d11820ed66ad9296b1aa8b552c8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
