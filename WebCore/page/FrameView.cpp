@@ -615,11 +615,16 @@ void FrameView::layout(bool allowSubtree)
         RenderObject* rootRenderer = documentElement ? documentElement->renderer() : 0;
         Node* body = document->body();
         if (body && body->renderer()) {
+#ifndef FLATTEN_FRAMESET
+            // On Android, frameSetFlatteningEnabled() is false, even though
+            // frameset flattening may be active.
             if (body->hasTagName(framesetTag) && !m_frame->settings()->frameSetFlatteningEnabled()) {
                 body->renderer()->setChildNeedsLayout(true);
                 vMode = ScrollbarAlwaysOff;
                 hMode = ScrollbarAlwaysOff;
-            } else if (body->hasTagName(bodyTag)) {
+            } else
+#endif
+            if (body->hasTagName(bodyTag)) {
                 if (!m_firstLayout && m_size.height() != layoutHeight() && body->renderer()->enclosingBox()->stretchesToViewHeight())
                     body->renderer()->setChildNeedsLayout(true);
                 // It's sufficient to just check the X overflow,
