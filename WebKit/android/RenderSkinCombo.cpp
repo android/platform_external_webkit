@@ -57,14 +57,11 @@ enum BorderStyle {
 const int RenderSkinCombo::arrowMargin[2] = {22, 34};
 const int RenderSkinCombo::padMargin[2] = {2, 5};
 
-// Then we have the borders used for the 9-patch stretch. The
-// rectangle at the centre of these borders is entirely below and to
-// the left of the arrow in the asset. Hence the border widths are the
-// same for the bottom and left, but are different for the top. The
-// right hand border width happens to be the same as arrowMargin
-// defined above.
-static const int        stretchMargin[2] = {3, 5};   // border width for the bottom and left of the 9-patch
-static const int        stretchTop[2] = {15, 23};     // border width for the top of the 9-patch
+// Then we have the borders used for the 9-patch stretch.
+// The rectangle at the centre of these borders is entirely to the left of the arrow
+// in the asset. Hence the border widths are the same for the bottom, left and top.
+// The right hand border width happens to be the same as arrowMargin defined above.
+static const int        stretchMargin[2] = {3, 5};   // Border width for the bottom, left and top, of the 9-patch
 
 // Finally, if the border is defined by the CSS, we only draw the
 // arrow and not the border. We do this by drawing the relevant subset
@@ -73,18 +70,25 @@ static const int        stretchTop[2] = {15, 23};     // border width for the to
 // spaced. The border to remove at the top, right and bottom of the
 // image is the same as stretchMargin above, but we need to know the width
 // of the arrow.
-static const int arrowWidth[2] = {22, 31};
+static const int arrowWidth[2] = {21, 31};
 
 RenderSkinCombo::Resolution RenderSkinCombo::resolution = MedRes;
 
-const SkIRect RenderSkinCombo::margin[2][2] = {{{ stretchMargin[MedRes], stretchTop[MedRes],
+const SkIRect RenderSkinCombo::margin[2][2] = {{{ stretchMargin[MedRes], stretchMargin[MedRes],
                                           RenderSkinCombo::arrowMargin[MedRes] + stretchMargin[MedRes], stretchMargin[MedRes] },
-                                        {0, stretchTop[MedRes], 0, stretchMargin[MedRes]}},
-                                       {{ stretchMargin[HighRes], stretchTop[HighRes],
+                                        {0, stretchMargin[MedRes], 0, stretchMargin[MedRes]}},
+                                       {{ stretchMargin[HighRes], stretchMargin[HighRes],
                                           RenderSkinCombo::arrowMargin[HighRes] + stretchMargin[HighRes], stretchMargin[HighRes] },
-                                        {0, stretchTop[HighRes], 0, stretchMargin[HighRes]}}};
+                                        {0, stretchMargin[HighRes], 0, stretchMargin[HighRes]}}};
+
 static SkBitmap         bitmaps[2][2]; // Collection of assets for a combo box
+static SkBitmap         arrowBitmaps[2]; // Collection of arrow-assets for a combo box
 static bool             isDecoded;      // True if all assets were decoded
+
+// Modification-values for the x and y coordinate of the combobox arrow. Measured on the image resources.
+// In the form arrowCoordinateModification[resolution]
+static SkScalar         arrowXCoordinateModification[2] = {SkIntToScalar(18), SkIntToScalar(26)};
+static SkScalar         arrowYCoordinateModification[2] = {SkIntToScalar(5), SkIntToScalar(7)};
 
 void RenderSkinCombo::Init(android::AssetManager* am, String drawableDirectory)
 {
@@ -96,6 +100,8 @@ void RenderSkinCombo::Init(android::AssetManager* am, String drawableDirectory)
 
     isDecoded = RenderSkinAndroid::DecodeBitmap(am, (drawableDirectory + "combobox_nohighlight.png").utf8().data(), &bitmaps[kNormal][FullAsset]);
     isDecoded &= RenderSkinAndroid::DecodeBitmap(am, (drawableDirectory + "combobox_disabled.png").utf8().data(), &bitmaps[kDisabled][FullAsset]);
+    isDecoded &= RenderSkinAndroid::DecodeBitmap(am, (drawableDirectory + "combobox_arrow_nohighlight.png").utf8().data(), &arrowBitmaps[kNormal]);
+    isDecoded &= RenderSkinAndroid::DecodeBitmap(am, (drawableDirectory + "combobox_arrow_disabled.png").utf8().data(), &arrowBitmaps[kDisabled]);
 
     int width = bitmaps[kNormal][FullAsset].width();
     int height = bitmaps[kNormal][FullAsset].height();
@@ -105,14 +111,12 @@ void RenderSkinCombo::Init(android::AssetManager* am, String drawableDirectory)
     bitmaps[kDisabled][FullAsset].extractSubset(&bitmaps[kDisabled][NoBorder], subset);
 }
 
-
 bool RenderSkinCombo::Draw(SkCanvas* canvas, Node* element, int x, int y, int width, int height)
 {
     if (!isDecoded)
         return true;
 
     State state = (element->isElementNode() && static_cast<Element*>(element)->isEnabledFormControl()) ? kNormal : kDisabled;
-    height = std::max(height, (stretchMargin[resolution]<<1) + 1);
 
     SkRect bounds;
     BorderStyle drawBorder = FullAsset;
@@ -129,13 +133,18 @@ bool RenderSkinCombo::Draw(SkCanvas* canvas, Node* element, int x, int y, int wi
         style->borderRightColor().isValid() ||
         style->borderTopColor().isValid() ||
         style->borderBottomColor().isValid()) {
-        bounds.fLeft += SkIntToScalar(width - RenderSkinCombo::extraWidth());
+        bounds.fLeft += SkIntToScalar(width - arrowWidth[resolution] - style->borderRightWidth());
         bounds.fRight -= SkIntToScalar(style->borderRightWidth());
         bounds.fTop += SkIntToScalar(style->borderTopWidth());
         bounds.fBottom -= SkIntToScalar(style->borderBottomWidth());
         drawBorder = NoBorder;
     }
+
+    SkScalar arrowX = bounds.fRight - arrowXCoordinateModification[resolution];
+    SkScalar arrowY = bounds.fTop + SkScalarMul(bounds.fBottom - bounds.fTop, SK_ScalarHalf) - arrowYCoordinateModification[resolution];
+
     SkNinePatch::DrawNine(canvas, bounds, bitmaps[state][drawBorder], margin[resolution][drawBorder]);
+    canvas->drawBitmap(arrowBitmaps[state], arrowX, arrowY);
     return false;
 }
 
