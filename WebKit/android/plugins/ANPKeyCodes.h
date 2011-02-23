@@ -144,6 +144,11 @@ enum ANPKeyCodes {
     kButtonStart_ANPKeyCode = 108,
     kButtonSelect_ANPKeyCode = 109,
     kButtonMode_ANPKeyCode = 110,
+    kQuestion_ANPKeyCode = 111,
+    kScreamer_ANPKeyCode = 112,
+    kLanguageSwitch_ANPKeyCode = 113,
+    kMannerMode_ANPKeyCode = 114,
+    k3DMode_ANPKeyCode = 115,
 
     // NOTE: If you add a new keycode here you must also add it to several other files.
     //       Refer to frameworks/base/core/java/android/view/KeyEvent.java for the full list.
