@@ -47,7 +47,7 @@ my %tags = ();
 my %attrs = ();
 my %parameters = ();
 my $extraDefines = 0;
-my $preprocessor = "/usr/bin/gcc -E -P -x c++";
+my $preprocessor = "/usr/bin/gcc -E -x c++";
 
 GetOptions(
     'tags=s' => \$tagsFile, 
