@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAH///1M\u003d",
+        "filename": "WebCore/loader/FrameLoaderClient.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1002471
+      },
+      "writtenOn": "2011-05-12T08:41:13Z",
+      "side": 1,
+      "message": "Instead of changing pure virtual function here, can it be implemented in other place?",
+      "revId": "7b4dc561e480583d1d580ca6d0626703ec8630a4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
