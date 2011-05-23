@@ -979,7 +979,11 @@ void WebViewCore::setUIRootLayer(const LayerAndroid* layer)
 void WebViewCore::contentDraw()
 {
     JNIEnv* env = JSC::Bindings::getJNIEnv();
-    env->CallVoidMethod(m_javaGlue->object(env).get(), m_javaGlue->m_contentDraw);
+    AutoJObject obj = m_javaGlue->object(env);
+
+    if (!obj.get())
+        return;
+    env->CallVoidMethod(obj.get(), m_javaGlue->m_contentDraw);
     checkException(env);
 }
 
