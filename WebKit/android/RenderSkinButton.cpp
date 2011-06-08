@@ -112,6 +112,24 @@ void RenderSkinButton::Draw(SkCanvas* canvas, const IntRect& r, RenderSkinAndroi
        out of the png. */
         margin.set(10, 9, 10, 14);
     }
+    
+    // Check margin left + margin right should be less than the width of image.
+    if(margin.fLeft + margin.fRight >= gButton[newState].width()){
+        if (gButton[newState].width() <= 1) {
+            margin.fLeft = margin.fRight = 0;
+        } else {
+            margin.fLeft = margin.fRight = (gButton[newState].width()/2) - 1;
+		}
+	}
+    // Check margin top + margin bottom should be less than the height of image.
+    if(margin.fTop + margin.fBottom >= gButton[newState].height()){
+        if (gButton[newState].height() <= 1) {
+            margin.fTop = margin.fBottom = 0;
+        } else {
+            margin.fTop = margin.fBottom = (gButton[newState].height()/2) - 1;
+		}
+	}
+    
     // Draw to the canvas.
     SkNinePatch::DrawNine(canvas, bounds, gButton[newState], margin);
 }
