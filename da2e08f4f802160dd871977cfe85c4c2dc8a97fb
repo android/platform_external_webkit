@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX//+hc\u003d",
+        "filename": "WebCore/platform/graphics/android/FontAndroid.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002416
+      },
+      "writtenOn": "2011-06-24T18:06:13Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "da2e08f4f802160dd871977cfe85c4c2dc8a97fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
