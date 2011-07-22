@@ -89,7 +89,16 @@ JSValue JavaInstance::stringValue(ExecState* exec) const
 {
     JSLock lock(SilenceAssertionsOnly);
 
+#if (__GNUC__ == 4 && __GNUC_MINOR__ == 4 )
+    // prevent gcc-4.4.x from compiling this template differently
+    // to the ones in JavaClassJSC.cpp and JNIBridgeJSC.cpp
+    static const char *jnimethodargs[] = {
+      "toString", "()Ljava/lang/String;"
+    };
+    jstring stringValue = (jstring)callJNIMethod<jobject>(m_instance->m_instance, jnimethodargs[0], jnimethodargs[1]);
+#else
     jstring stringValue = (jstring)callJNIMethod<jobject>(m_instance->m_instance, "toString", "()Ljava/lang/String;");
+#endif
 
     // Should throw a JS exception, rather than returning ""? - but better than a null dereference.
     if (!stringValue)
