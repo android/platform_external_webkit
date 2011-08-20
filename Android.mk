@@ -46,9 +46,6 @@ endif
 # To enable JIT in Android's JSC, please set ENABLE_JSC_JIT environment
 # variable to true.
 
-# To enable JIT in Android's JSC, please set ENABLE_JSC_JIT environment
-# variable to true.
-
 # Read JS_ENGINE environment variable
 JAVASCRIPT_ENGINE = $(JS_ENGINE)
 
@@ -96,6 +93,15 @@ endif
 ifeq ($(JAVASCRIPT_ENGINE),jsc)
   ifeq ($(HTTP_STACK),chrome)
     $(error Can not build with JSC and the Chrome HTTP stack)
+  endif
+endif
+
+# If ENABLE_JSC_JIT is unset then default it to true for MIPS JSC builds
+ifeq ($(TARGET_ARCH),mips)
+  ifeq ($(JAVASCRIPT_ENGINE),jsc)
+    ifeq ($(ENABLE_JSC_JIT),)
+      ENABLE_JSC_JIT=true
+    endif
   endif
 endif
 
