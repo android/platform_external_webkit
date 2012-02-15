@@ -486,8 +486,16 @@ void TilesManager::unregisterGLWebViewState(GLWebViewState* state)
 TilesManager* TilesManager::instance()
 {
     if (!gInstance) {
-        gInstance = new TilesManager();
-        XLOG("instance(), new gInstance is %x", gInstance);
+        {
+            android::Mutex::Autolock lock(m_instanceLock);
+            // Double-check for multi-thread safe.
+            if (!gInstance) {
+                gInstance = new TilesManager();
+                XLOG("instance(), new gInstance is %x", gInstance);
+            } else {
+                return gInstance;
+            }
+        }
         XLOG("Waiting for the generator...");
         gInstance->waitForGenerator();
         XLOG("Generator ready!");
@@ -496,6 +504,7 @@ TilesManager* TilesManager::instance()
 }
 
 TilesManager* TilesManager::gInstance = 0;
+android::Mutex TilesManager::m_instanceLock;
 
 } // namespace WebCore
 

@@ -239,6 +239,7 @@ private:
     android::Condition m_generatorReadyCond;
 
     static TilesManager* gInstance;
+    static android::Mutex m_instanceLock;
 
     ShaderProgram m_shader;
     TransferQueue m_queue;
