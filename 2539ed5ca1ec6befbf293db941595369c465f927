@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC43////c\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004513
+      },
+      "writtenOn": "2012-02-16T09:52:06Z",
+      "side": 1,
+      "message": "On ARM, V8 requires ARMv7, and since ...",
+      "revId": "2539ed5ca1ec6befbf293db941595369c465f927",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC43////g\u003d",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004513
+      },
+      "writtenOn": "2012-02-16T09:52:06Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "2539ed5ca1ec6befbf293db941595369c465f927",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
