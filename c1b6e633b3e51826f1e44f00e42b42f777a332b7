@@ -16,6 +16,24 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADCn////g\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1004513
+      },
+      "writtenOn": "2012-02-21T14:15:13Z",
+      "side": 1,
+      "message": "True, but for portability, WebKit code is written without assuming that static local variable initialization is thread-safe. WebKit policy is to use  AtomicallyInitializedStatic in Source/JavaScriptCore/wtf/Threading.h.\n\nThe likelihood of this code being upstreamed is low, but we should probably use AtomicallyInitializedStatic for consistency.",
+      "parentUuid": "AAADEX////4\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
