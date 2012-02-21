@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADEX////4\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2012-02-21T12:27:36Z",
+      "side": 1,
+      "message": "this is not 100% correct, you need at a minimum an atomic load-acquire to read the value of gInstance, otherwise, you don\u0027t protect the read from reordering on multi-core CPUs and you can end up in a situation where you read a value of gInstance that is !\u003d NULL, but the fields of the corresponding variable not fully initialized yet.\n\nJust use a C++ static local variable instead, it will be initialized created the first time the function is called, and this is guaranteed to be thread-safe on Android per the C++ ABI, i.e.:\n\n  // this will get called the first time ::instance() is called.\n  TilesManager*  TilesManager::create(void) {\n    TilesManager* manager \u003d new TilesManager();\n    manager-\u003ewaitForGenerater();\n    return manager;\n  }\n\n  // return the instance, lazily created on first call.\n  TilesManager* TilesManager::instance()\n  {\n     static TileManager* sIntance \u003d TilesManager::create();\n     return sInstance;\n  }\n\nNOTE: In general, static local C++ variable initialization is not thread-safe (e.g. on Windows, or when -fno-threadsafe-statics is used). But it definitely is on Android.",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
