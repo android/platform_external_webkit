@@ -34,6 +34,24 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADEX////s\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2012-02-21T21:49:21Z",
+      "side": 1,
+      "message": "yeah, that totally makes sense. I didn\u0027t know about WebKit\u0027s AtomicallyInitializedStatic, but the code should use it.",
+      "parentUuid": "AAADCn////g\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
