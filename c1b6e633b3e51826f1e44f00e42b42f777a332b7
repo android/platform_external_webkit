@@ -124,6 +124,24 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADG3////c\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1004513
+      },
+      "writtenOn": "2012-02-22T15:36:51Z",
+      "side": 1,
+      "message": "\u003e So, considering all, I think a better solution might be ...\n\nI\u0027m not familiar with this code, but I don\u0027t see how this would work. We would need to call TilesManager::instance() in order to pass the singleton TilesManager to TexturesGenerator. But TilesManager::instance() doesn\u0027t return until waitForGenerator() is signalled by markGeneratorAsReady() within TexturesGenerator. If you work around this, you\u0027re passing a not-ready-for-use TilesManager to TexturesGenerator.\n\n\u003e To answer steve\u0027s question, the way we may use the code, it is definitely a possibility. Afaik, on master we did remove calls that ended up creating the singleton at the wrong time\n\nI think that before we consider making any such changes, we should properly understand why instance() is being called on multiple threads, and whether this is correct. What do you mean exactly by \u0027the wrong time\u0027? From Jackie\u0027s description above, it sounds like this is indeed a case where two threads make overlapping calls to instance().",
+      "parentUuid": "AAADHn////Y\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
