@@ -106,6 +106,24 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADIX////8\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000628
+      },
+      "writtenOn": "2012-02-22T15:26:48Z",
+      "side": 1,
+      "message": "David, thanks for the explaination. Indeed I trivialized it. The patch has that issue and the \"volatile\" is also a good catch.",
+      "parentUuid": "AAADHn////Y\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
