@@ -88,6 +88,24 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADHn////Y\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2012-02-22T12:10:06Z",
+      "side": 1,
+      "message": "Jackie, I\u0027m afraid you don\u0027t understand SMP memory re-ordering. You _really_ need an acquire barrier when performing the gInstance read, otherwise, even with a mutex that protects all operations (let\u0027s assume waitForGenerator in inside the mutex block for simplicity), you could be in a situation where:\n\n1/ a first thread calls instance(), initializes the object, then leaves, i.e. calls mutex unlock (which provides for a \"release\" barrier that acts on the local CPU only)\n\n2/ a second thread, running on a _different_ CPU, calls instance(), it reads that the value of gInstance is not NULL so return it immediately. However, later, the thread tries to read the data in *gInstance and gets stale values.\n\nThat\u0027s because gInstance and the *gInstance fields can be on different cache lines, that do not necessarily propagate casually between CPUs. You can have a case where the cache line that contains gInstance was migrated (copied or moved) to CPU2, but not the one(s) containing *gInstance.\n\nUsing a \"load-acquire\" barrier ensures that whatever stores that happened before the mutex unlock\u0027s release barrier will be visible to other CPUs. \n\nThis kind of problem typically doesn\u0027t happen on x86 / x86_64 because their memory model essentially ensures that all atomic loads have acquire semantics, and all atomic stores have release semantics. That\u0027s not the case in general, in particular on ARM.\n\nAnother problem with your code is that, at a *minimum*, you should have declared gInstance as a volatile pointer (but even that would require an explicit barrier).\n\nAdmitedly, this is a consufing subject, but please do not trivialize memory ordering problems.",
+      "parentUuid": "AAADGn////4\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
