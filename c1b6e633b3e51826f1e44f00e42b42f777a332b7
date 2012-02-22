@@ -52,6 +52,42 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADGn////0\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000628
+      },
+      "writtenOn": "2012-02-22T10:30:16Z",
+      "side": 1,
+      "message": "The AtomicallyInitializedStatic seems using same mechanism of the mutex. I found in the whole Source/WebCore/platform/graphics/android folder, most places are using android::Mutex::Autolock to handle thread synchronization. Maybe using Mutex is more consistent. Just my own opinion.",
+      "parentUuid": "AAADCn////g\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADGn////4\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000628
+      },
+      "writtenOn": "2012-02-22T10:30:16Z",
+      "side": 1,
+      "message": "Correct, there is still a potential problem to return the gInstance to a thread before gInstance-\u003ewaitForGenerator() returns. It may cause problem due to the TexturesGenerator is not ready. \nIf that\u0027s your concern, actually if we move the line \"gInstance-\u003ewaitForGenerator();\" just below the \"gInstance \u003d new TilesManager();\",  in the same locking scope, there should be no such racing condition. The double check with mutex should be thread safe in such singleton implementation and shoud be equivalent to using the AtomicallyInitializedStatic. \n\nBut there is a deadlock issue behind the problem and this was why we put the line \"gInstance-\u003ewaitForGenerator();\" out of the lock scope. \nIn this case, the second thread is created inside the call of \"new TilesManager()\". See line 115 of TilesManager.cpp: m_pixmapsGenerationThread \u003d new TexturesGenerator();\nThen in TexturesGenerator.cpp, line 125, it will call TilesManager::instance()-\u003emarkGeneratorAsReady() to notify the TitesManager thread, in which the TilesManager::instance() will be called again. If we lock all the code, it will block there to wait for the first thread return and the first thread is waiting for the notification at \"gInstance-\u003ewaitForGenerator()\". That cause deadlock, which is actually the real reason for this hang issue we found in emulator with the original code. \n\nSo, considering all, I think a better solution might be to change the TexturesGenerator code: \n1. Add a new member m_tilesManager. Since the TexturesGenerator is only created by TilesManager so should be 1:1 mapping with it. Looks like they are tightly coupled. It does not make sense for TexturesGenerator to call TilesManager-\u003einstance().  \n2. Change the constructor to TexturesGenerator::TexturesGenerator(TilesManager* tilesManager) to initialize the m_tilesManager. \n3. Replace all \"TilesManager-\u003einstance()\" with \"m_tilesManager\".\nThen we can include the \"gInstance-\u003ewaitForGenerator()\" into either the lock scope or AtomicallyInitializedStatic scope.",
+      "parentUuid": "AAADEX////4\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
