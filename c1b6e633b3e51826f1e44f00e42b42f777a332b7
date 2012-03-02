@@ -142,6 +142,24 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADfH////8\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000628
+      },
+      "writtenOn": "2012-03-02T05:27:40Z",
+      "side": 1,
+      "message": "Steve, I agree with you. That solution is more like a workaround. I think the original code may need a redesign. \nWith current design, the TitlesManager and TexturesGenerator are tightly coupled and depend on each other. Without a new design, the compromise of passing a not-ready-for-use TilesManager to TexturesGenerator seems have to be made. \nJun and me are not experts to do big changes in the android port of WebKit. Is there any action on this problem from Android webkit team?\nThanks!",
+      "parentUuid": "AAADG3////c\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
