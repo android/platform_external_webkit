@@ -26,6 +26,8 @@
 #ifndef BaseLayerAndroid_h
 #define BaseLayerAndroid_h
 
+#include <utils/Mutex.h>
+
 #include "Color.h"
 #include "GLWebViewState.h"
 #include "IntRect.h"
