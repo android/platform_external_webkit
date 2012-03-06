@@ -160,6 +160,24 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADjH////I\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1004513
+      },
+      "writtenOn": "2012-03-06T14:52:30Z",
+      "side": 1,
+      "message": "I think that a work-around like the one you describe isn\u0027t a good idea, as it\u0027s likely to lead to more problems.\n\nI\u0027m not an expert on this area of WebKit either - it\u0027s probably best to get input from Nicolas (nicolasroard@google.com). Do you have a bug to track this problem? That\u0027s probably a better place for discussion than this code review.",
+      "parentUuid": "AAADfH////8\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
