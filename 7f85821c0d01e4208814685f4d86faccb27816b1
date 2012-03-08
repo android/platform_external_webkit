@@ -16,6 +16,24 @@
       "revId": "7f85821c0d01e4208814685f4d86faccb27816b1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADs3////s\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/BaseLayerAndroid.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006692
+      },
+      "writtenOn": "2012-03-08T21:50:11Z",
+      "side": 1,
+      "message": "this class uses android:Mutex and it was getting it transitively through Skia, but we no longer depend on that class in Skia so the fact that this class was missing the import causes problems with the build.",
+      "parentUuid": "AAADqX///+E\u003d",
+      "revId": "7f85821c0d01e4208814685f4d86faccb27816b1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
