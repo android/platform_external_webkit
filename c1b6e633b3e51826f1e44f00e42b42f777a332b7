@@ -178,6 +178,24 @@
       "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEG3////8\u003d",
+        "filename": "Source/WebCore/platform/graphics/android/TilesManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1011068
+      },
+      "writtenOn": "2012-03-20T03:59:53Z",
+      "side": 1,
+      "message": "Turner,\nCheck the mutex code, it looks like pthread_mutex_lock/unlock both have full memory barrier (They will call _normal_lock/unlock wihch have ANDROID_MEMBAR_FULL() called). So I suppose the mutex does have full memory barrier semantics.\n\nThe problem of this code is (My understanding. :)):  the mutex here can\u0027t make sure the the order of new operation and assignment to gInstance. So for SMP system, another CPU could see gInstance assignment while new operation is not fully finished.\n\nI suppose the fix could be easy: add a memory barrier between the new operation and gInstance assignment. But not sure whether the memory barrier operation is expoted by bionic or not. Anyway sync semantics from gcc could work.\n\nBut I am still not 100 percent sure to my understanding. Let me know if I have wrong understanding or miss something here. Thanks.",
+      "parentUuid": "AAADHn////Y\u003d",
+      "revId": "c1b6e633b3e51826f1e44f00e42b42f777a332b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
