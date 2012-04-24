@@ -3,6 +3,7 @@
  *           (C) 2000 Simon Hausmann <hausmann@kde.org>
  *           (C) 2000 Stefan Schimanski (1Stein@gmx.de)
  * Copyright (C) 2004, 2005, 2006, 2009 Apple Inc. All rights reserved.
+ * Copyright (C) 2012 Sony Mobile Communications AB
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -74,11 +75,9 @@ void RenderFrame::layout()
         return;
     }
 
-    HTMLFrameElementBase* element = static_cast<HTMLFrameElementBase*>(node());
-    if (element->scrollingMode() == ScrollbarAlwaysOff && !root->isFrameSet()) {
-        setNeedsLayout(false);
-        return;
-    }
+    // Need a call to layout() here. Otherwise, frames will
+    // not be aware of the flattened height of nested framesets.
+    view->layout();
 
     // Update the dimensions to get the correct width and height
     updateWidgetPosition();
