@@ -857,6 +857,10 @@ void ApplicationCacheGroup::checkIfLoadIsComplete()
         // FIXME: Fetch the resource from manifest URL again, and check whether it is identical to the one used for update (in case the application was upgraded server-side in the meanwhile). (<rdar://problem/6467625>)
 
         ASSERT(m_cacheBeingUpdated);
+        // If the cache has stopped loading, the pointer to the ApplicationCache has release
+        if (!m_cacheBeingUpdated.get())
+            break;
+
         if (m_manifestResource)
             m_cacheBeingUpdated->setManifestResource(m_manifestResource.release());
         else {
