@@ -72,7 +72,7 @@ GetOptions(
     'tags=s' => \$tagsFile, 
     'attrs=s' => \$attrsFile,
     'factory' => \$printFactory,
-    'outputDir=s' => \$outputDir,
+    'output=s' => \$outputDir,
     'extraDefines=s' => \$extraDefines,
     'preprocessor=s' => \$preprocessor,
     'wrapperFactory' => \$printWrapperFactory,
