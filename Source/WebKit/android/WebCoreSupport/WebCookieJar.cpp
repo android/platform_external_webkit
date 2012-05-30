@@ -272,3 +272,8 @@ void WebCookieJar::setAcceptFileSchemeCookies(bool accept)
 }
 
 }
+
+// FlushSemaphore creates NewRunnableMethod and has longer lifetime than it.
+// Suppose we should disable the runnable refcount.
+// Check the definition of DISABLE_RUNNABLE_METHOD_REFCOUNT for detail.
+DISABLE_RUNNABLE_METHOD_REFCOUNT(android::FlushSemaphore);
