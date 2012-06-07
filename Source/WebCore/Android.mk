@@ -295,7 +295,7 @@ LOCAL_SRC_FILES := $(LOCAL_SRC_FILES) \
 	\
 	history/BackForwardController.cpp \
 	history/BackForwardListImpl.cpp \
-	history/CachedFrame.cpp \
+	history/CachedFrame_history.cpp \
 	history/CachedPage.cpp \
 	history/HistoryItem.cpp \
 	history/PageCache.cpp \
@@ -480,7 +480,7 @@ LOCAL_SRC_FILES := $(LOCAL_SRC_FILES) \
 	\
 	page/BarInfo.cpp \
 	page/Chrome.cpp \
-	page/Connection.cpp \
+	page/Connection_page.cpp \
 	page/Console.cpp \
 	page/ContentSecurityPolicy.cpp \
 	page/ContextMenuController.cpp \
