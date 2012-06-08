@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGbX///84\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010103
+      },
+      "writtenOn": "2012-06-08T16:16:22Z",
+      "side": 1,
+      "message": "It shouldn\u0027t be deleted, it just might not be in the document anymore. We are grabbing a reference to the Node, not a raw pointer, so there shouldn\u0027t be any risk of use after free. Are you saying there is an explicit delete somewhere in WebKit? Where is that?",
+      "revId": "709e2c37d4687965ca4799cc1338bc2dce58a2bf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGbn///8c\u003d",
+        "filename": "Source/WebKit/android/jni/WebViewCore.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1010103
+      },
+      "writtenOn": "2012-06-08T16:16:22Z",
+      "side": 1,
+      "message": "This call no longer exists in internal tree, and it is rather wasteful (traverses recursively the entire DOM). Instead, the right check to do would just be to call node-\u003einDocument()",
+      "revId": "709e2c37d4687965ca4799cc1338bc2dce58a2bf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
