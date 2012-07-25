@@ -1659,9 +1659,12 @@ void HTMLMediaElement::playbackProgressTimerFired(Timer<HTMLMediaElement>*)
 #if PLATFORM(ANDROID)
         m_mouseOver = WTF::currentTime() - m_lastTouch <= TOUCH_DELAY;
 #endif
+        // Only update media control buffer when it is Opaque
         if (!m_mouseOver && controls() && hasVideo())
             mediaControls()->makeTransparent();
-
+#if PLATFORM(ANDROID)
+        else
+#endif
         mediaControls()->playbackProgressed();
     }
     // FIXME: deal with cue ranges here
@@ -1928,7 +1931,11 @@ void HTMLMediaElement::mediaPlayerTimeChanged(MediaPlayer*)
     else
         m_sentEndEvent = false;
 
+    // Avoid do media control update(start/stop) when timeupdate message from
+    // java side on Android platform.
+#if !PLATFORM(ANDROID)
     updatePlayState();
+#endif
     endProcessingMediaPlayerCallback();
 }
 
