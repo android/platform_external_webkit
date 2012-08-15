@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIeH///+I\u003d",
+        "filename": "Source/WebCore/Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1004513
+      },
+      "writtenOn": "2012-08-15T15:17:36Z",
+      "side": 1,
+      "message": "The comment in this file states that it\u0027s for the Windows build, so I think we should explicitly list all the files we need, and exclude this file. This is the approach taken by Chromium too.",
+      "revId": "bda70e3322430cbea5646187134aaa47797ce5ee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
