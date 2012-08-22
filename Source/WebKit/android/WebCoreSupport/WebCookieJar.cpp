@@ -272,3 +272,6 @@ void WebCookieJar::setAcceptFileSchemeCookies(bool accept)
 }
 
 }
+// android::FlushSemaphore is a static instance created once and never deleted. Thus,
+// No need to be ref-counted by NewRunnableMethod since it will outlive the NewRunnableMethod.
+DISABLE_RUNNABLE_METHOD_REFCOUNT(android::FlushSemaphore);
