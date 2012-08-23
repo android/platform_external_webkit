@@ -16,6 +16,24 @@
       "revId": "bda70e3322430cbea5646187134aaa47797ce5ee",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI53///6s\u003d",
+        "filename": "Source/WebCore/Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1014964
+      },
+      "writtenOn": "2012-08-23T10:49:51Z",
+      "side": 1,
+      "message": "It may lead to some performance loss.\n\nSide note:\nThrowing away static library would catch the errors with duplicate  symbols earlier.",
+      "parentUuid": "AAAIeH///+I\u003d",
+      "revId": "bda70e3322430cbea5646187134aaa47797ce5ee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
