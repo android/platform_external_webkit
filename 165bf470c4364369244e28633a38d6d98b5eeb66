@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI6X//9/w\u003d",
+        "filename": "Source/WebCore/rendering/RenderObject.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1672,
+      "author": {
+        "id": 1010103
+      },
+      "writtenOn": "2012-08-29T17:05:43Z",
+      "side": 1,
+      "message": "Code style issue, boolean expressions at the same nesting level that span multiple lines should have their operators on the left side of the line instead of the right side. See #5 under \"Indentation\" here: http://www.webkit.org/coding/coding-style.html",
+      "revId": "165bf470c4364369244e28633a38d6d98b5eeb66",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
