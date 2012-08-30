@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI63//9Ro\u003d",
+        "filename": "Source/WebCore/rendering/RenderObject.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1672,
+      "author": {
+        "id": 1010103
+      },
+      "writtenOn": "2012-08-30T16:23:42Z",
+      "side": 1,
+      "message": "Looks like you can drop the first set of parens and have the following:\n\nif (layer \u0026\u0026 m_style-\u003eposition() !\u003d newStyle-\u003eposition()\n\n\u0026\u0026 (m_style-\u003eposition() \u003d\u003d FixedPosition || newStyle-\u003eposition() \u003d\u003d FixedPosition))\n\nThat should fit both inside the column width constraints and with webkit\u0027s style guidlines. Or you can do what visibilityChanged below does and use a bool to store the long conditional so that the if is easier to read.",
+      "revId": "d368aae918b677fee5503d2001b9d3f8e457b4ab",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
