@@ -16,6 +16,24 @@
       "revId": "f34ee76541a249c1a1a403f578e964818df4ddf7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI7H///7Q\u003d",
+        "filename": "Source/WebCore/Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1014964
+      },
+      "writtenOn": "2012-08-31T09:39:48Z",
+      "side": 1,
+      "message": "Yes, and there is the V8 binding for FileReaderSync API.",
+      "parentUuid": "AAAI5n///Ss\u003d",
+      "revId": "f34ee76541a249c1a1a403f578e964818df4ddf7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
