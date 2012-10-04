@@ -1,3 +1,6 @@
+2012-10-03  Emilio Escobar <eescobar@gmail.com>
+	Added patch for WebKit to fix compilation issues when using bison 2.6
+
 2011-05-11  Antoine Labour  <piman@chromium.org>
 
         Reviewed by David Levin.
