@@ -71,6 +71,7 @@ static int substituteWithVerticalGlyphs(const SimpleFontData* fontData, uint16_t
     return error;
 }
 
+#ifndef __ANDROID__
 bool GlyphPage::fill(unsigned offset, unsigned length, UChar* buffer, unsigned bufferLength, const SimpleFontData* fontData)
 {
     if (SkUTF16_IsHighSurrogate(buffer[bufferLength-1])) {
@@ -111,5 +112,6 @@ bool GlyphPage::fill(unsigned offset, unsigned length, UChar* buffer, unsigned b
 
     return allGlyphs != 0;
 }
+#endif
 
 }  // namespace WebCore
