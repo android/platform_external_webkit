@@ -796,7 +796,10 @@ SkCanvas* WebViewCore::createPrerenderCanvas(PrerenderedInval* prerendered)
     prerendered->bitmap.setConfig(SkBitmap::kARGB_8888_Config,
                                   enclosingScaledArea.width(),
                                   enclosingScaledArea.height());
-    prerendered->bitmap.allocPixels();
+    if (!prerendered->bitmap.allocPixels()) {
+        ALOGE("Failed to allocate bitmap pixels for prerendered!");
+        return 0;
+    }
     SkCanvas* bitmapCanvas = new SkCanvas(prerendered->bitmap);
     bitmapCanvas->scale(m_scale, m_scale);
     bitmapCanvas->translate(-enclosingDocArea.x(), -enclosingDocArea.y());
