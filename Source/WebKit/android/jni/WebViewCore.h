@@ -544,6 +544,7 @@ namespace android {
         void listBoxRequest(WebCoreReply* reply, const uint16_t** labels,
                 size_t count, const int enabled[], size_t enabledCount,
                 bool multiple, const int selected[], size_t selectedCountOrSelection);
+        void setIsContentDrawPaused(bool isPaused);
         bool drawIsPaused() const;
         // The actual content (without title bar) size in doc coordinate
         int  screenWidth() const { return m_screenWidth; }
@@ -775,6 +776,7 @@ namespace android {
         int m_textWrapWidth;
         float m_scale;
         WebCore::PageGroup* m_groupForVisitedLinks;
+        bool m_isContentDrawPaused;
         int m_cacheMode;
         bool m_fullscreenVideoMode;
 
