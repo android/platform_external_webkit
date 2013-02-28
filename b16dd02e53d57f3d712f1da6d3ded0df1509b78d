@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Qazcb.IE",
+        "filename": "Source/WebKit/android/jni/WebCoreFrameBridge.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1907,
+      "author": {
+        "id": 1019911
+      },
+      "writtenOn": "2013-02-28T03:34:08Z",
+      "side": 1,
+      "message": "The handle parameter (and related code) will also need to become a jlong if this code is going to work on a 64-bit arch.",
+      "revId": "b16dd02e53d57f3d712f1da6d3ded0df1509b78d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
