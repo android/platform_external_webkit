@@ -588,6 +588,10 @@ static void adjustMenuListStyleCommon(RenderStyle* style)
     // allocate height as arrow size
     int arrow = std::max(18, style->fontMetrics().height() + 2 * padding);
     style->setPaddingRight(Length(arrow, Fixed));
+//add by huaqin_gongpeicai_002 M: when click some controls in the browser, the background only shows half --start
+    if (style->height().isFixed())
+        arrow = std::max(arrow, style->height().value());
+//add by huaqin_gongpeicai_002 for: when click some controls in the browser, the background only shows half --end
     style->setMinHeight(Length(arrow, Fixed));
     style->setHeight(Length(arrow, Fixed));
 }
