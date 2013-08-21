@@ -44,7 +44,11 @@ namespace WebCore {
 
 static void writeOutput(png_structp png, png_bytep data, png_size_t size)
 {
-    static_cast<Vector<unsigned char>*>(png->io_ptr)->append(data, size);
+#   if (PNG_LIBPNG_VER > 10600)
+        static_cast<Vector<unsigned char>*>(png_get_io_ptr(png))->append(data, size);
+#   else
+        static_cast<Vector<unsigned char>*>(png->io_ptr)->append(data, size); 
+#   endif
 }
 
 static void preMultipliedBGRAtoRGBA(const void* pixels, int pixelCount, unsigned char* output)
